@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <!-- <meta name="description"
+        content="Deformable Neural Radiance Fields creates free-viewpoint portraits (nerfies) from casually captured videos.">
+  <meta name="keywords" content="Nerfies, D-NeRF, NeRF"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OMG3D: 3d object manipulation in a single image usint generative models</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <!-- <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script> -->
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <!-- <link rel="icon" href="./static/images/favicon.svg"> -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<!-- <nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://keunhong.com">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://hypernerf.github.io">
+            HyperNeRF
+          </a>
+          <a class="navbar-item" href="https://nerfies.github.io">
+            Nerfies
+          </a>
+          <a class="navbar-item" href="https://latentfusion.github.io">
+            LatentFusion
+          </a>
+          <a class="navbar-item" href="https://photoshape.github.io">
+            PhotoShape
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav> -->
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">OMG3D: 3d object manipulation in a single image usint generative models</h1>
+          <!-- <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://keunhong.com">Keunhong Park</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://utkarshsinha.com">Utkarsh Sinha</a><sup>2</sup>,</span>
+            <span class="author-block">
+              <a href="https://jonbarron.info">Jonathan T. Barron</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="http://sofienbouaziz.com">Sofien Bouaziz</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.danbgoldman.com">Dan B Goldman</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://homes.cs.washington.edu/~seitz/">Steven M. Seitz</a><sup>1,2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="http://www.ricardomartinbrualla.com">Ricardo Martin-Brualla</a><sup>2</sup>
+            </span>
+          </div> -->
+
+          <div class="is-size-5 publication-authors">
+            <!-- <span class="author-block"><sup>1</sup>University of Washington,</span>
+            <span class="author-block"><sup>2</sup>Google Research</span> -->
+            <span class="author-block">Anonymous authors<br>Submission to ICLR2025</span>
+            
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <!-- <a href="https://arxiv.org/pdf/2011.12948"
+                   class="external-link button is-normal is-rounded is-dark"> -->
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <!-- <a href="https://arxiv.org/abs/2011.12948"
+                   class="external-link button is-normal is-rounded is-dark"> -->
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <span class="link-block">
+                <!-- <a href="https://www.youtube.com/watch?v=MrKrnHhk8IA"
+                   class="external-link button is-normal is-rounded is-dark"> -->
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <!-- <a href="https://github.com/google/nerfies"
+                   class="external-link button is-normal is-rounded is-dark"> -->
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              <span class="link-block">
+                <!-- <a href="https://github.com/google/nerfies/releases/tag/0.1"
+                   class="external-link button is-normal is-rounded is-dark"> -->
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                  </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<section class="section">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+
+        <div class="item item-michelle">
+          <video poster="" id="box-walk" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/video_application/michelle.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+        <div class="item item-michelle">
+          <video poster="" id="box-walk" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/video_application/pete.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+        <div class="item item-box-walk">
+          <video poster="" id="box-walk" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/video_application/box_walk.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-plane">
+          <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/video_application/plane.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-box-greet">
+          <video poster="" id="box-greet" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/video_application/box_greet.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        
+        <div class="item item-pumpkin">
+          <video poster="" id="pumpkin" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/video_application/pumpkin.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-elephant">
+          <video poster="" id="elephant" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/video_application/elephant.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  <h2 class="title is-4 is-centered has-text-centered" style="margin-bottom:0;">
+    Applications of OMG3D. 
+  </h2>
+</section>
+
+
+<section class="section hero is-light is-small">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Object manipulation in images aims to not only edit the object presentation but 
+            also gift objects with motion. Previous methods encountered challenges in concurrently 
+            handling static editing and dynamic motion applications, while also struggling to 
+            achieve realism in object appearance and scene lighting. In this work, we introduce OMG3D, 
+            a novel framework that integrates the precise geometric control with the generative power 
+            of diffusion models, thus achieving significant enhancements in visual performance. 
+            Our framework converts 2D objects into 3D, enabling user-directed modifications and 
+            lifelike motions at the geometric level. To address texture realism, we propose CustomRefiner, 
+            a texture refinement module that pretrain a customized diffusion model to align the 
+            style and perspectives of coarse renderings with the original image. Additionally, 
+            we introduce IllumiCombiner, an lighting processing module that estimates and adjusts 
+            background lighting to match human visual perception, resulting in more realistic 
+            illumination. Extensive experiments demonstrate the outstanding visual performance of
+            our approach in both static and dynamic scenarios. Remarkably, all these steps
+            can be done using one NVIDIA 3090. The code and project page will be released
+            upon acceptance of the paper.
+          </p>
+        </div>
+      </div>
+    </div>
+    
+</section>
+
+<section class="hero teaser" style="margin-top: 50px;">
+  <div class="container is-max-desktop" style="max-width: 1200px;"> <!-- Add custom max-width here -->
+    <div class="hero-body">
+      <!-- Your image here -->
+      <img src="./static/images/pipeline.jpg" alt="teaser" width="100%" style="margin-left: 30px;"> 
+      
+    </div>
+    <h2 class="title is-4 is-centered has-text-centered" style="margin-bottom:0;">
+      Model structure of our model, OMG3D. 
+    </h2>
+  </div>
+</section>
+
+<hr>
+<section class="hero teaser" style="margin-top: 50px;">
+  <div class="container is-max-desktop" style="max-width: 1600px;"> <!-- Add custom max-width here -->
+    <div class="hero-body">
+      <!-- Your image here -->
+      <img src="./static/images/edit_compare.jpg" alt="teaser" width="100%" style="margin-left: 30px;"> 
+      
+    </div>
+    <h2 class="title is-4 is-centered has-text-centered" style="margin-bottom:0;">
+      Comparison with other image edit methods.
+    </h2>
+  </div>
+</section>
+<hr>
+<section class="section">
+  <div class="container is-max-desktop">
+    
+
+    <div class="container is-max-desktop">
+      <table style="width: 98%;margin-left:auto;margin-right:auto; text-align: center; border-spacing: 4px; border-collapse: separate; ">
+        <tbody>
+          <tr>
+            <td colspan="2" style="text-align: center; padding: 10px;">
+              <h2 class="subtitle has-text-centered">
+                Text Description: A rotated pumpkin jumping on a stump.
+              </h2>
+            </td>
+          </tr>
+
+          <tr>
+            <th>
+              <video src="./static/videos/video_comparison/pumpkin_dc.mp4" width="250" height="250" controls autoplay loop muted></video>
+              <div style="font-weight: bold;">
+                By DynamiCrafter
+              </div>
+            </th>
+            <th>
+              <video src="./static/videos/video_comparison/pumpkin_is.mp4" width="250" height="250" controls autoplay loop muted></video>
+              <div style="font-weight: bold;">
+                By Image Sculpting
+              </div>
+            </th>
+            <th>
+              <video src="./static/videos/video_comparison/pumpkin_ours.mp4" width="250" height="250" controls autoplay loop muted></video>
+              <div style="font-weight: bold;">
+                Ours
+              </div>
+            </th>
+          </tr>
+     
+          <tr>
+            <th>
+              <video src="./static/videos/video_comparison/pumpkin_pika.mp4" width="250" height="250" controls autoplay loop muted></video>
+              <div style="font-weight: bold;">
+                By Pika Video Model
+              </div>
+            </th>
+            <th>
+              <video src="./static/videos/video_comparison/pumpkin_svd.mp4" width="250" height="250" controls autoplay loop muted></video>
+              <div style="font-weight: bold;">
+                By SVD
+              </div>
+            </th>
+            
+            <th>
+              <video src="./static/videos/video_comparison/pumpkin_kling.mp4" width="250" height="250" controls autoplay loop muted></video>
+              <div style="font-weight: bold;">
+                By Kling Video Model
+              </div>
+            </th>
+          </tr>
+
+          <!-- 插入空行 -->
+          <tr>
+            <td colspan="2" style="height: 20px;"></td>
+          </tr>
+
+          <tr>
+            <td colspan="2">
+              <h2 class="subtitle has-text-centered">
+                Text Description: An elephant is walking on the ground.
+              </h2>
+            </td>
+          </tr>
+
+          <tr>
+            <th>
+              <video src="./static/videos/video_comparison/elephant_dc.mp4" width="250" height="250" controls autoplay loop muted></video>
+              <div style="font-weight: bold;">
+                By DynamiCrafter
+              </div>
+            </th>
+            <th>
+              <video src="./static/videos/video_comparison/elephant_is.mp4" width="250" height="250" controls autoplay loop muted></video>
+              <div style="font-weight: bold;">
+                By Image Sculpting
+              </div>
+            </th>
+            <th>
+              <video src="./static/videos/video_comparison/elephant_ours.mp4" width="250" height="250" controls autoplay loop muted></video>
+              <div style="font-weight: bold;">
+                Ours
+              </div>
+            </th>
+          </tr>
+     
+          <tr>
+            <th>
+              <video src="./static/videos/video_comparison/elephant_pika.mp4" width="250" height="250" controls autoplay loop muted></video>
+              <div style="font-weight: bold;">
+                By Pika Video Model
+              </div>
+            </th>
+            <th>
+              <video src="./static/videos/video_comparison/elephant_svd.mp4" width="250" height="250" controls autoplay loop muted></video>
+              <div style="font-weight: bold;">
+                By SVD
+              </div>
+            </th>
+            
+            <th>
+              <video src="./static/videos/video_comparison/elephant_kling.mp4" width="250" height="250" controls autoplay loop muted></video>
+              <div style="font-weight: bold;">
+                By Kling Video Model
+              </div>
+            </th>
+          </tr>
+          
+          <!-- 插入空行 -->
+          <tr>
+            <td colspan="2" style="height: 20px;"></td>
+          </tr>
+          
+          <tr>
+            <td colspan="2">
+              <h2 class="subtitle has-text-centered">
+                Text Description: A boxtoy greeting on the keyboard.
+              </h2>
+            </td>
+          </tr>
+          
+          <tr>
+            <th>
+              <video src="./static/videos/video_comparison/box_dc.mp4" width="250" height="250" controls autoplay loop muted></video>
+              <div style="font-weight: bold;">
+                By DynamiCrafter
+              </div>
+            </th>
+            <th>
+              <video src="./static/videos/video_comparison/boxtoy_is.mp4" width="250" height="250" controls autoplay loop muted></video>
+              <div style="font-weight: bold;">
+                By Image Sculpting
+              </div>
+            </th>
+            <th>
+              <video src="./static/videos/video_comparison/boxtoy_our.mp4" width="250" height="250" controls autoplay loop muted></video>
+              <div style="font-weight: bold;">
+                Ours
+              </div>
+            </th>
+          </tr>
+     
+          <tr>
+            <th>
+              <video src="./static/videos/video_comparison/boxtoy_pika.mp4" width="250" height="250" controls autoplay loop muted></video>
+              <div style="font-weight: bold;">
+                By Pika Video Model
+              </div>
+            </th>
+            <th>
+              <video src="./static/videos/video_comparison/boxtoy_svd.mp4" width="250" height="250" controls autoplay loop muted></video>
+              <div style="font-weight: bold;">
+                By SVD
+              </div>
+            </th>
+            
+            <th>
+              <video src="./static/videos/video_comparison/boxtoy_kling.mp4" width="250" height="250" controls autoplay loop muted></video>
+              <div style="font-weight: bold;">
+                By Kling Video Model
+              </div>
+            </th>
+          </tr>
+          
+
+        </tbody>
+      </table>      
+    </div>
+    
+  </div>
+  
+</section>
+<h2 class="title is-4 is-centered has-text-centered" style="margin-bottom:0;">
+  Comparison with other image animation methods.
+</h2>
+<hr>
+
+
+<section class="hero is-small is-light">
+  <div class="hero-body">
+    <div class="container">
+      <!-- Paper video. -->
+      <h2 class="title is-3">Video Demo</h2>
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          
+          <div class="publication-video">
+            <!-- Local video here -->
+            <video width="100%" controls>
+              <source src="./static/videos/teaser.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+</section>
+<!--End BibTex citation -->
+
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            <!--<br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>. -->
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
